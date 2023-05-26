@@ -10,11 +10,12 @@ import {
   View,
   FlatList,
 } from 'react-native';
+import GoalItem from './components/GoalItem';
 
-type Goal = {
+export interface Goal {
   text: string;
   id: string;
-};
+}
 
 const Stack = createNativeStackNavigator();
 
@@ -48,11 +49,7 @@ function App() {
           alwaysBounceVertical={false}
           data={courseGoals}
           renderItem={({item}: {item: Goal}) => {
-            return (
-              <View style={styles.goalItem}>
-                <Text style={styles.goalText}>{item.text}</Text>
-              </View>
-            );
+            return <GoalItem item={item} />;
           }}
         />
       </View>
@@ -85,14 +82,5 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     marginTop: 25,
-  },
-  goalItem: {
-    margin: 8,
-    padding: 8,
-    borderRadius: 6,
-    backgroundColor: '#5e0acc',
-  },
-  goalText: {
-    color: 'white',
   },
 });
