@@ -11,19 +11,24 @@ import {
   FlatList,
 } from 'react-native';
 
+type Goal = {
+  text: string;
+  id: string;
+};
+
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [enteredGoalText, setEnteredGoalText] = useState('');
-  const [courseGoals, setCourseGoals] = useState<any>([]);
+  const [enteredGoalText, setEnteredGoalText] = useState<string>('');
+  const [courseGoals, setCourseGoals] = useState<Goal[]>([]);
 
-  const goalInputHandler = (enteredText: any) => {
+  const goalInputHandler = (enteredText: string) => {
     setEnteredGoalText(enteredText);
   };
   const addGoalHandler = () => {
-    setCourseGoals((currentCourseGoals: any) => [
-      enteredGoalText,
+    setCourseGoals((currentCourseGoals: Goal[]) => [
       ...currentCourseGoals,
+      {text: enteredGoalText, id: Math.random().toString()},
     ]);
   };
 
@@ -39,12 +44,13 @@ function App() {
       </View>
       <View style={styles.goalsContainer}>
         <FlatList
+          keyExtractor={(item: Goal, index: number) => item.id}
           alwaysBounceVertical={false}
           data={courseGoals}
-          renderItem={(itemData: any) => {
+          renderItem={({item}: {item: Goal}) => {
             return (
-              <View key={itemData.index}>
-                <Text style={styles.goalText}>{itemData.item}</Text>
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{item.text}</Text>
               </View>
             );
           }}
