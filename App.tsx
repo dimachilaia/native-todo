@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
   View,
+  FlatList,
 } from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -37,13 +38,17 @@ function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        <ScrollView alwaysBounceHorizontal={false}>
-          {courseGoals.map((goal: any, index: any) => (
-            <View key={index} style={styles.goalItem}>
-              <Text style={styles.goalText}>{goal}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        <FlatList
+          alwaysBounceVertical={false}
+          data={courseGoals}
+          renderItem={(itemData: any) => {
+            return (
+              <View key={itemData.index}>
+                <Text style={styles.goalText}>{itemData.item}</Text>
+              </View>
+            );
+          }}
+        />
       </View>
     </View>
   );
