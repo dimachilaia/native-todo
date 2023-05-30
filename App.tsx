@@ -30,19 +30,22 @@ function App() {
     ]);
   };
 
+  const deleteGoalHandler = (item: Goal) => {
+    setCourseGoals((prevCourseGoals: Goal[]) =>
+      prevCourseGoals.filter(goal => goal.id !== item.id),
+    );
+  };
+
   return (
     <View style={styles.appContainer}>
-      <GoalInput
-        onAddGoal={addGoalHandler}
-        // goalInputHandler={goalInputHandler}
-      />
+      <GoalInput onAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         <FlatList
           keyExtractor={(item: Goal, index: number) => item.id}
           alwaysBounceVertical={false}
           data={courseGoals}
           renderItem={({item}: {item: Goal}) => {
-            return <GoalItem item={item} />;
+            return <GoalItem item={item} onDeleteItem={deleteGoalHandler} />;
           }}
         />
       </View>
