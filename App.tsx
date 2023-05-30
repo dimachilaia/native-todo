@@ -11,6 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export interface Goal {
   text: string;
@@ -20,13 +21,9 @@ export interface Goal {
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [enteredGoalText, setEnteredGoalText] = useState<string>('');
   const [courseGoals, setCourseGoals] = useState<Goal[]>([]);
 
-  const goalInputHandler = (enteredText: string) => {
-    setEnteredGoalText(enteredText);
-  };
-  const addGoalHandler = () => {
+  const addGoalHandler = (enteredGoalText: string) => {
     setCourseGoals((currentCourseGoals: Goal[]) => [
       ...currentCourseGoals,
       {text: enteredGoalText, id: Math.random().toString()},
@@ -35,14 +32,10 @@ function App() {
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Your Course Goal!"
-          style={styles.textInput}
-          onChangeText={goalInputHandler}
-        />
-        <Button title="Add Goal" onPress={addGoalHandler} />
-      </View>
+      <GoalInput
+        onAddGoal={addGoalHandler}
+        // goalInputHandler={goalInputHandler}
+      />
       <View style={styles.goalsContainer}>
         <FlatList
           keyExtractor={(item: Goal, index: number) => item.id}
@@ -65,21 +58,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    width: '70%',
-    marginRight: 8,
-    padding: 8,
-  },
+
   goalsContainer: {
     marginTop: 25,
   },
